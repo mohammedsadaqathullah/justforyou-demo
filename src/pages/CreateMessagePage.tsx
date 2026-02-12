@@ -110,7 +110,8 @@ const CreateMessagePage: React.FC = () => {
 
     const upiId = "justforyoy@ybl";
     const amount = "29";
-    const upiLink = `upi://pay?pa=${upiId}&pn=ValentineMessage&am=${amount}&cu=INR`;
+    const [transactionId] = useState(`VAL${Date.now()}${Math.floor(Math.random() * 1000)}`);
+    const upiLink = `upi://pay?pa=${upiId}&pn=ValentineMessage&am=${amount}&cu=INR&tr=${transactionId}&mc=0000&tn=Valentine%20Message%20Payment`;
 
     if (!content) return null;
 
