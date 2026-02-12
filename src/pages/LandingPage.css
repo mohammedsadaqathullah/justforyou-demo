@@ -1,13 +1,17 @@
 .landing-page {
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 3rem 1rem;
+    justify-content: flex-start;
+    /* Better for scrolling content */
+    padding: 4rem 1rem;
     background:
         linear-gradient(135deg, #FFF5F7 0%, #FFF0F3 25%, #F0F9FF 50%, #FAF5FF 75%, #FFF5F7 100%);
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     animation: gradientShift 15s ease infinite;
 }
 
@@ -437,11 +441,25 @@
 /* Responsive Design */
 @media (max-width: 768px) {
     .landing-page {
-        padding: 2.5rem 1rem;
+        padding: 2rem 0.5rem;
+        animation: none;
+        /* Disable expensive animation on mobile */
     }
 
     .landing-hero {
-        margin-bottom: 3rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .gradient-orb {
+        display: none !important;
+        /* Blur effects are expensive on mobile */
+    }
+
+    .category-btn,
+    .hero-badge,
+    .feature {
+        backdrop-filter: none !important;
+        background: rgba(255, 255, 255, 0.98) !important;
     }
 
     .hero-badge {

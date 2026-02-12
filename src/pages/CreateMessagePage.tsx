@@ -19,6 +19,8 @@ const CreateMessagePage: React.FC = () => {
     const [timeRemaining, setTimeRemaining] = useState(150);
     const [canConfirmPayment, setCanConfirmPayment] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState<'upi' | 'qr' | null>(null);
+    const [payerIdentity, setPayerIdentity] = useState('');
+    const [verificationCode] = useState(() => Math.floor(100000 + Math.random() * 900000).toString());
 
     const headerRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
@@ -46,7 +48,7 @@ const CreateMessagePage: React.FC = () => {
     }, [content, navigate]);
 
     useEffect(() => {
-        if (!showPayment || !paymentMethod) return;
+        if (!showPayment) return;
 
         const timer = setInterval(() => {
             setTimeRemaining((prev) => {
@@ -102,6 +104,11 @@ const CreateMessagePage: React.FC = () => {
         alert('Link copied to clipboard!');
     };
 
+    const copyUpiId = () => {
+        navigator.clipboard.writeText(upiId);
+        alert('UPI ID copied to clipboard!');
+    };
+
     const formatTime = (seconds: number) => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -110,8 +117,9 @@ const CreateMessagePage: React.FC = () => {
 
     const upiId = "justforyoy@ybl";
     const amount = "29";
-    const [transactionId] = useState(`VAL${Date.now()}${Math.floor(Math.random() * 1000)}`);
-    const upiLink = `upi://pay?pa=${upiId}&pn=ValentineMessage&am=${amount}&cu=INR&tr=${transactionId}&mc=0000&tn=Valentine%20Message%20Payment`;
+    const verificationNote = `VAL-${verificationCode}`;
+    const upiLinkFull = `upi://pay?pa=${upiId}&pn=Valentine&am=${amount}&cu=INR&tn=${encodeURIComponent(verificationNote)}`;
+    const upiLinkMinimal = `upi://pay?pa=${upiId}&pn=Valentine&tn=${encodeURIComponent(verificationNote)}`;
 
     if (!content) return null;
 
@@ -159,83 +167,89 @@ const CreateMessagePage: React.FC = () => {
                             </div>
                         </div>
 
-                        {!paymentMethod ? (
-                            <div className="payment-options">
-                                <p className="options-title">Pay with UPI to continue</p>
-                                <div className="options-grid">
-                                    <button className="option-card" onClick={() => setPaymentMethod('upi')}>
-                                        <span className="option-icon">📱</span>
-                                        <span className="option-label">Pay via App</span>
-                                    </button>
-                                    <button className="option-card" onClick={() => setPaymentMethod('qr')}>
-                                        <span className="option-icon">📷</span>
-                                        <span className="option-label">Scan QR</span>
-                                    </button>
+                        <div className="payment-action-area">
+                            <div className="identity-section">
+                                <label htmlFor="payerIdentity">Your UPI ID or Mobile (for tracking)</label>
+                                <input
+                                    id="payerIdentity"
+                                    type="text"
+                                    value={payerIdentity}
+                                    onChange={(e) => setPayerIdentity(e.target.value)}
+                                    placeholder="e.g., 9876543210 or name@upi"
+                                    className="identity-input"
+                                />
+                            </div>
+
+                            <div className="verification-notice-box">
+                                <span className="step-badge">CRITICAL STEP</span>
+                                <p className="verification-instruction">
+                                    If paying manually (Copy ID/QR), add this code in <b>Payment Notes</b> to validate your payment:
+                                </p>
+                                <div className="verification-code-display">
+                                    <span className="code-label">CODE:</span>
+                                    <span className="code-value">{verificationNote}</span>
+                                    <button className="btn-copy-mini" onClick={() => {
+                                        navigator.clipboard.writeText(verificationNote);
+                                        alert('Code copied!');
+                                    }}>Copy</button>
                                 </div>
                             </div>
-                        ) : (
-                            <div className="payment-action-area">
-                                {paymentMethod === 'upi' ? (
-                                    <div className="upi-app-section">
-                                        <p className="method-hint">Opens GPay, PhonePe, or Paytm</p>
-                                        <a href={upiLink} className="btn btn-primary btn-upi-app">
-                                            Open Payment App
+
+                            <div className="payment-unified-grid">
+                                <div className="qr-column">
+                                    <div className="qr-box">
+                                        <img
+                                            src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLinkFull)}`}
+                                            alt="UPI QR Code"
+                                            className="qr-image"
+                                        />
+                                        <div className="upi-id-container">
+                                            <p className="upi-id-text">{upiId}</p>
+                                            <button className="btn-copy-mini" onClick={copyUpiId}>
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p className="method-label">Scan QR or Copy ID</p>
+                                </div>
+
+                                <div className="app-column">
+                                    <div className="security-notice">
+                                        <span className="notice-icon">🛡️</span>
+                                        <p>If QR payment is blocked, use the <b>UPI ID</b> or <b>Pay manually</b> via your app. Dont forget to mention code in notes.</p>
+                                    </div>
+
+                                    <div className="app-actions">
+                                        <a href={upiLinkFull} className="btn-upi-direct">
+                                            <span className="btn-icon">⚡</span>
+                                            Pay via App (Auto)
+                                        </a>
+                                        <a href={upiLinkMinimal} className="btn-upi-manual">
+                                            <span className="btn-icon">📱</span>
+                                            Open App (Manual)
                                         </a>
                                     </div>
-                                ) : (
-                                    <div className="qr-section">
-                                        <div className="qr-box">
-                                            {/* Using a placeholder service for QR or user can replace with image */}
-                                            <img
-                                                src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`}
-                                                alt="UPI QR Code"
-                                                className="qr-image"
-                                            />
-                                            <p className="upi-id-text">{upiId}</p>
-                                        </div>
-                                    </div>
-                                )}
-
-                                <div className="timer-container">
-                                    <div className="timer-circle">
-                                        <svg className="timer-svg" viewBox="0 0 100 100">
-                                            <circle className="timer-bg" cx="50" cy="50" r="45" />
-                                            <circle
-                                                className="timer-progress"
-                                                cx="50"
-                                                cy="50"
-                                                r="45"
-                                                style={{
-                                                    strokeDashoffset: `${283 * (1 - timeRemaining / 150)}`
-                                                }}
-                                            />
-                                        </svg>
-                                        <div className="timer-text">
-                                            {canConfirmPayment ? '✓' : formatTime(timeRemaining)}
-                                        </div>
-                                    </div>
-                                    <p className="timer-label">
-                                        {canConfirmPayment
-                                            ? 'Payment duration met'
-                                            : 'Verifying payment status...'}
-                                    </p>
-                                </div>
-
-                                <div className="payment-actions">
-                                    {canConfirmPayment && (
-                                        <button
-                                            className="btn btn-primary btn-confirm"
-                                            onClick={handlePaymentConfirmed}
-                                        >
-                                            I Have Paid
-                                        </button>
-                                    )}
-                                    <button className="btn-back" onClick={() => setPaymentMethod(null)}>
-                                        Choose other method
-                                    </button>
                                 </div>
                             </div>
-                        )}
+
+                            <div className="timer-container-mini">
+                                <span className="timer-text-mini">
+                                    {canConfirmPayment ? '✓ Verification period met' : `Waiting for bank update: ${formatTime(timeRemaining)}`}
+                                </span>
+                            </div>
+
+                            <div className="payment-footer-actions">
+                                {canConfirmPayment && (
+                                    <button
+                                        className="btn btn-primary btn-confirm"
+                                        onClick={handlePaymentConfirmed}
+                                        disabled={!payerIdentity.trim()}
+                                    >
+                                        {!payerIdentity.trim() ? 'Enter your ID above first' : 'I Have Paid Successfully'}
+                                    </button>
+                                )}
+                            </div>
+                        </div>
 
                         <button className="btn btn-cancel" onClick={() => setShowPayment(false)}>
                             Cancel
