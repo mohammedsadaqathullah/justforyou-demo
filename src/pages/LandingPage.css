@@ -1,0 +1,539 @@
+.landing-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    background:
+        linear-gradient(135deg, #FFF5F7 0%, #FFF0F3 25%, #F0F9FF 50%, #FAF5FF 75%, #FFF5F7 100%);
+    position: relative;
+    overflow: hidden;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Animated floating hearts */
+.hearts-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.15;
+    animation: floatHeart 6s ease-in-out infinite;
+    filter: blur(1px);
+}
+
+@keyframes floatHeart {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.1;
+    }
+
+    50% {
+        transform: translateY(-30px) rotate(10deg);
+        opacity: 0.2;
+    }
+}
+
+/* Large gradient orbs */
+.gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: floatOrb 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.orb-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #EC4899, transparent);
+    top: -10%;
+    left: -10%;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #8B5CF6, transparent);
+    bottom: -15%;
+    right: -15%;
+    animation-delay: -7s;
+}
+
+.orb-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #3B82F6, transparent);
+    top: 40%;
+    right: 20%;
+    animation-delay: -14s;
+}
+
+@keyframes floatOrb {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -30px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+}
+
+.landing-container {
+    max-width: 1100px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.landing-hero {
+    margin-bottom: 4rem;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.75rem;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(139, 92, 246, 0.15));
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(236, 72, 153, 0.3);
+    border-radius: 50px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #831843;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeIn 1s 0.2s ease forwards, pulse 2s 1s ease-in-out infinite;
+    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.2);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.badge-icon {
+    font-size: 1.125rem;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    10%,
+    30% {
+        transform: scale(1.2);
+    }
+
+    20%,
+    40% {
+        transform: scale(1);
+    }
+}
+
+.landing-headline {
+    margin-bottom: 2rem;
+    opacity: 0;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+}
+
+.headline-gradient {
+    background: linear-gradient(135deg, #831843 0%, #BE185D 35%, #C026D3 70%, #7C3AED 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    animation: gradientFlow 8s ease infinite;
+}
+
+@keyframes gradientFlow {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.landing-subline {
+    font-size: clamp(1.25rem, 3vw, 1.625rem);
+    color: #BE185D;
+    font-style: italic;
+    opacity: 0;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    margin-bottom: 2rem;
+}
+
+.landing-description {
+    font-size: clamp(1.0625rem, 2vw, 1.25rem);
+    color: #4A4A4A;
+    opacity: 0;
+    font-weight: 400;
+    line-height: 1.8;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.highlight {
+    background: linear-gradient(135deg, #EC4899, #8B5CF6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
+}
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin: 3.5rem 0;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s ease forwards;
+}
+
+.divider-line {
+    flex: 1;
+    max-width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #EC4899, transparent);
+}
+
+.divider-text {
+    font-size: 1.125rem;
+    color: #BE185D;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto 4.5rem;
+    perspective: 1000px;
+}
+
+.category-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border-radius: 24px;
+}
+
+.category-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--category-color);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 0;
+}
+
+.category-btn:hover .category-glow {
+    opacity: 1;
+}
+
+.category-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.category-btn:hover::before {
+    width: 400px;
+    height: 400px;
+}
+
+.category-btn:hover {
+    border-color: rgba(236, 72, 153, 0.5);
+    box-shadow: 0 20px 60px rgba(236, 72, 153, 0.25);
+    transform: translateY(-12px);
+}
+
+.category-emoji {
+    font-size: 4rem;
+    line-height: 1;
+    transition: all 0.5s ease;
+    z-index: 1;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+.category-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1F1F1F;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+    z-index: 1;
+}
+
+.category-hint {
+    font-size: 0.9375rem;
+    color: #BE185D;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 1;
+}
+
+.category-btn:hover .category-hint {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.landing-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    max-width: 1000px;
+    margin: 0 auto 4rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s ease forwards;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 2.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(236, 72, 153, 0.2);
+    border-radius: 20px;
+    transition: all 0.4s ease;
+}
+
+.feature:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(236, 72, 153, 0.2);
+    border-color: rgba(236, 72, 153, 0.4);
+}
+
+.feature-icon {
+    font-size: 3.5rem;
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(236, 72, 153, 0.3));
+}
+
+.feature-content h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1F1F1F;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+}
+
+.feature-content p {
+    font-size: 1rem;
+    color: #5A5A5A;
+    line-height: 1.6;
+}
+
+.landing-footer {
+    margin-top: 4rem;
+    padding-top: 3.5rem;
+    border-top: 2px solid rgba(236, 72, 153, 0.2);
+    opacity: 0;
+    animation: fadeIn 1s 1.8s ease forwards;
+}
+
+.footer-quote {
+    font-size: 1.375rem;
+    color: #4A4A4A;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.8;
+    position: relative;
+    padding: 0 2rem;
+}
+
+.quote-mark {
+    font-size: 3rem;
+    color: #EC4899;
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 0;
+    vertical-align: middle;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .landing-page {
+        padding: 2.5rem 1rem;
+    }
+
+    .landing-hero {
+        margin-bottom: 3rem;
+    }
+
+    .hero-badge {
+        font-size: 0.8125rem;
+        padding: 0.625rem 1.5rem;
+    }
+
+    .category-grid {
+        gap: 1.5rem;
+        margin-bottom: 3.5rem;
+    }
+
+    .category-btn {
+        padding: 2.5rem 1.75rem;
+    }
+
+    .category-emoji {
+        font-size: 3.5rem;
+    }
+
+    .category-title {
+        font-size: 1.125rem;
+    }
+
+    .landing-features {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+
+    .feature {
+        flex-direction: row;
+        text-align: left;
+        padding: 2rem 1.5rem;
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        flex-shrink: 0;
+    }
+
+    .footer-quote {
+        font-size: 1.125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .landing-page {
+        padding: 2rem 1rem;
+    }
+
+    .hero-badge {
+        gap: 0.5rem;
+        padding: 0.5rem 1.25rem;
+    }
+
+    .badge-icon {
+        font-size: 1rem;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-bottom: 3rem;
+    }
+
+    .category-btn {
+        padding: 2.25rem 1.5rem;
+    }
+
+    .category-emoji {
+        font-size: 3.25rem;
+    }
+
+    .category-title {
+        font-size: 1.0625rem;
+    }
+
+    .landing-footer {
+        margin-top: 3rem;
+        padding-top: 2.5rem;
+    }
+
+    .footer-quote {
+        font-size: 1.0625rem;
+        padding: 0 1rem;
+    }
+
+    .quote-mark {
+        font-size: 2.5rem;
+    }
+
+    .gradient-orb {
+        filter: blur(60px);
+    }
+}
